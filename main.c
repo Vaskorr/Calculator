@@ -29,6 +29,7 @@ int main() {
            case '-':
            case '*':
            case '/':
+           case '(':
                strcpy(stack_op.element[stack_op.top],expression[i]);
                stack_op.top++; //Добавляем операцию в стек
                if (strlen(str) > 0){
@@ -37,8 +38,11 @@ int main() {
                    /* Тут должна занулиться str */
                }
                break;
+           case ')':
+               /* Вот тут мы выполняем проход по обоим стекам
+                * выполняем операции над элементами стека операндо пока не встретим '(' */
            default:
-               str[strlen(str)] = expression[i]; // Сохраняем кусок операнда
+               str[strlen(str)-1] = expression[i]; // Сохраняем кусок операнда
                break;
        }
     }
