@@ -1,3 +1,3 @@
-"C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\calc.dir/objects.a
-C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\calc.dir/objects.a @CMakeFiles\calc.dir\objects1.rsp
-C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\calc.dir/objects.a -Wl,--no-whole-archive -o calc.exe -Wl,--out-implib,libcalc.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\calc.dir\linklibs.rsp
+"C:\Program Files\JetBrains\CLion 2021.2.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\calc.dir/objects.a
+C:\min\mingw64\bin\ar.exe cr CMakeFiles\calc.dir/objects.a @CMakeFiles\calc.dir\objects1.rsp
+C:\min\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\calc.dir/objects.a -Wl,--no-whole-archive -o calc.exe -Wl,--out-implib,libcalc.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\calc.dir\linklibs.rsp

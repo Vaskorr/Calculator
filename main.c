@@ -5,23 +5,39 @@
 #include <math.h>
 #include <string.h>
 
-/* Реализация стека. Мне кажется, есть смысл хранить элементы обоих
- * стеков как строки */
+/*
+ * Calculator
+ * authors (VK ID): maximdood, sveboo, astragor_dragociy, iuliia_kom, vaskorr
+ */
 
+/*
+ * Vaskorr's update:
+ * + Работает с операциями + - * / ^
+ * + И даже рекурсивно
+ * + Примеры смотрим в samples_for_input.txt и закидываем в input.txt
+ *
+ * - Надо бы юзать не int, а float
+ * - Доделать скобки, а с ними и сложные операции
+ * - Добавить унарный минус
+ * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
+ */
+
+// структура стека
 typedef struct stack{
     int top;
     char element[M_STACK][M_STR];
 }stack;
 
-void nullstr(char* str){
-    int n = strlen(str);
-    for(int i = 0; i < n; ++i){
-        str[i] = '\0';
-    }
-}
+struct variable{
+    char name[100];
+    char expression[100];
+};
 
+// хранилище переменных
+struct variable vars[10] = {0};
+
+// получение приоритета функций
 int get_priority(char* op){
-    /* Возможно для более сложных операций будет смысл сравнивать переданную строку if'ом */
     switch (op[0]) {
         case '+':
         case '-':
@@ -36,98 +52,136 @@ int get_priority(char* op){
 
 int get_result(char* expression){
     char str[M_STR] = {0}; // Для считывания операндов из более чем одного символа
-    stack stack_num; // Создаем стеки для чисел и операций
-    stack stack_op;
+    stack stack_num = {0}; // Создаем стеки для чисел и операций
+    stack stack_op = {0};
     stack_op.top = 0;
     stack_num.top = 0;
-
+    int strsize = 1; // размер прочитанного операнда
+    int f = 1; // флажок :)
     /* Начинаем проход по выражению, разбиваем составляющие на два стека */
     for(int i = 0; expression[i]; ++i){
         switch (expression[i]) {
+            case '\n':
+                // конец строки, выходим
+                break;
             case '+':
             case '-':
             case '*':
             case '/':
-                if(get_priority(stack_op.element[stack_op.top-1]) > get_priority(expression[i])){
-                    int a = atoi(stack_num.element[stack_num.top-1]); // atoi - ф-я для перевода строки в число
-                    int b = atoi(stack_num.element[stack_num.top-2]);
-                    char op = stack_op.element[stack_op.top-1];
-                    stack_num.top--;
-                    stack_op.top--;
-                    /* Буду благодарен, если придумаешь, как тут без вложенных switch */
-                    switch(op){
-                        case '+':
-                            /* snprintf используется тут для обратного перевода числа в строку */
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a+b);
-                            break;
-                        case '-':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a-b);
-                            break;
-                        case '*':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a*b);
-                            break;
-                        case '/':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a*b);
-                            break;
+            case '^':
+                // ищем числовое значение операнда в списке переменных
+                for (int j = 0; j < 10; ++j) {
+                    if (!strcmp(vars[j].name, str)){
+                        f = 0;
+                        // тут мы рекурсивно находим значение операнда
+                        itoa(get_result(vars[j].expression),stack_num.element[stack_num.top++],10);
+                        break;
                     }
                 }
-            case '(' :
-                strcpy(stack_op.element[stack_op.top],expression[i]);
-                stack_op.top++; //Добавляем операцию в стек
-                if (strlen(str) > 0){
-                    strcpy(stack_num.element[stack_num.top], str);
-                    stack_num.top++; // Проверяем, был ли до этого операнд, если да, записываем
-                    nullstr(str);
+                // а если не нашли такой операнд, значит это число
+                if (f){ strcpy(stack_num.element[stack_num.top++], str);}
+                f = 1;
+                strsize = 1;
+                // начинаем выкидывать из стека операции с приоритетом не менее текущего
+                for (int j = stack_op.top-1; j >= 0; --j) {
+                    if (!stack_op.top){
+                        break; // если вдруг стек пуст
+                    }
+                    if(get_priority(&stack_op.element[j][0]) >= get_priority(&expression[i])){
+                        // сразу считаем значение, извлекая операцию из стека
+                        switch (stack_op.element[j][0]) {
+                            case '+':
+                                itoa(atoi(stack_num.element[stack_num.top-2])+atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                                break;
+                            case '-':
+                                itoa(atoi(stack_num.element[stack_num.top-2])-atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                                break;
+                            case '*':
+                                itoa(atoi(stack_num.element[stack_num.top-2])*atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                                break;
+                            case '/':
+                                itoa(atoi(stack_num.element[stack_num.top-2])/atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                                break;
+                            case '^':
+                                itoa(pow(atoi(stack_num.element[stack_num.top-2]), atoi(stack_num.element[stack_num.top-1])), stack_num.element[stack_num.top-2], 10);
+                                break;
+                        }
+                        stack_num.top--;
+                        stack_op.top--;
+                    } else{
+                        break;
+                    }
                 }
+                // закидываем операцию в стек с операциями
+                stack_op.element[stack_op.top++][0] = expression[i];
+                break;
+            case '(' :
+                // остается дописать скобочки
                 break;
             case ')' :
-                /* Считаем последовательно все выражение в скобках */
-                stack_num.top--;
-                stack_op.top--;
-                int a = atoi(stack_num.element[stack_num.top]);
-                int b = atoi(stack_num.element[stack_num.top-1]);
-                char op = stack_op.element[stack_op.top];
-                while(op != '('){
-                    /* Буду благодарен, если придумаешь, как тут без вложенных switch */
-                    switch(op){
-                        case '+':
-                            /* snprintf используется тут для обратного перевода числа в строку */
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a+b);
-                            break;
-                        case '-':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a-b);
-                            break;
-                        case '*':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a*b);
-                            break;
-                        case '/':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", a*b);
-                            break;
-                        case '^':
-                            snprintf(stack_num.element[stack_num.top-1],M_STR, "%d", pow(a,b));
-                            break;
-                    }
-                    stack_num.top--;
-                    stack_op.top--;
-                    a = atoi(stack_num.element[stack_num.top]);
-                    b = atoi(stack_num.element[stack_num.top-1]);
-                    op = stack_op.element[stack_op.top];
-                }
+                // и эти тоже
+                break;
             default:
-                str[strlen(str)-1] = expression[i]; // Сохраняем кусок операнда
+                // Сохраняем кусок операнда
+                str[strsize-1] = expression[i];
+                str[strsize++] = '\0';
                 break;
         }
     }
-    /* Вот тут возможно нужно еще раз пробежаться по стекам и посчитать все, пока
-     * длина не станет равной 1 */
+
+    // а теперь добиваем строку и стек
+    for (int j = 0; j < 10; ++j) {
+        if (!strcmp(vars[j].name, str)){
+            f = 0;
+            itoa(get_result(vars[j].expression),stack_num.element[stack_num.top++],10);
+            break;
+        }
+    }
+    if (f){strcpy(stack_num.element[stack_num.top++], str);}
+    f = 1;
+    if(stack_op.top){
+        for (int i = stack_op.top-1; i >= 0; --i) {
+            // добавляем операцию в стек
+            printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[i], stack_num.element[stack_num.top-1]);
+            switch (stack_op.element[i][0]) {
+                case '+':
+                    itoa(atoi(stack_num.element[stack_num.top-2])+atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    break;
+                case '-':
+                    itoa(atoi(stack_num.element[stack_num.top-2])-atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    break;
+                case '*':
+                    itoa(atoi(stack_num.element[stack_num.top-2])*atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    break;
+                case '/':
+                    itoa(atoi(stack_num.element[stack_num.top-2])/atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    break;
+                case '^':
+                    itoa(pow(atoi(stack_num.element[stack_num.top-2]), atoi(stack_num.element[stack_num.top-1])), stack_num.element[stack_num.top-2], 10);
+                    break;
+            }
+            stack_num.top--;
+            stack_op.top--;
+        }
+    }
     return atoi(stack_num.element[0]);
 }
 
 int main() {
-    char expression[] = {0};  // тут будет наше математическое выражение
-    gets(expression);
-
-    printf("%d", get_result(expression));
+    FILE* input;
+    input = fopen("input.txt", "r");
+    char expression[50] = {0};  // тут будет наше математическое выражение
+    fgets(expression, 100, input);
+    printf("your expression: %s\nyour variables:\n", expression);
+    int i = 0;
+    // добавляем переменные
+    while (!feof(input)) {
+        fscanf(input,"%s = %s", &vars[i].name, &vars[i].expression);
+        printf("varname: %s\n value: %s\n", vars[i].name, vars[i].expression);
+        i++;
+    }
+    printf("\n");
+    printf("\n\n\nanswer: %d\n\n\n", get_result(&expression));
     return 0;
 }
 
@@ -159,4 +213,3 @@ int main() {
  * e
  * j
  */
-

@@ -1,0 +1,35 @@
+a*b+c+25/e+f*g+h+32
+a = 1
+b = 2
+c = 3
+d = 4
+e = 5
+f = 6
+h = 7
+g = 8
+
+answer: 97
+
+a+b*c^n
+a = 3
+b = 4
+c = 2
+n = 4
+
+answer: 67
+
+alpha+beta^delta
+alpha = 1
+beta = 2
+delta = 3
+
+answer: 9
+
+a+b*c
+a = n^k
+b = a+2
+c = 3
+n = 2
+k = 3
+
+answer: 38
