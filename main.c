@@ -22,6 +22,15 @@
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
 
+/*
+ * Андреев update:
+ * + double вместо int
+ *
+ * - Доделать скобки, а с ними и сложные операции
+ * - Добавить унарный минус
+ * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
+ */
+
 // структура стека
 typedef struct stack{
     int top;
@@ -48,9 +57,10 @@ int get_priority(char* op){
         case '^':
             return 3;
     }
+    return 0;
 }
 
-int get_result(char* expression){
+double get_result(char* expression){
     char str[M_STR] = {0}; // Для считывания операндов из более чем одного символа
     stack stack_num = {0}; // Создаем стеки для чисел и операций
     stack stack_op = {0};
@@ -74,7 +84,7 @@ int get_result(char* expression){
                     if (!strcmp(vars[j].name, str)){
                         f = 0;
                         // тут мы рекурсивно находим значение операнда
-                        itoa(get_result(vars[j].expression),stack_num.element[stack_num.top++],10);
+                        sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression));
                         break;
                     }
                 }
@@ -91,19 +101,15 @@ int get_result(char* expression){
                         // сразу считаем значение, извлекая операцию из стека
                         switch (stack_op.element[j][0]) {
                             case '+':
-                                itoa(atoi(stack_num.element[stack_num.top-2])+atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
-                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));                                break;
                             case '-':
-                                itoa(atoi(stack_num.element[stack_num.top-2])-atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
-                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));                                break;
                             case '*':
-                                itoa(atoi(stack_num.element[stack_num.top-2])*atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
-                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));                                break;
                             case '/':
-                                itoa(atoi(stack_num.element[stack_num.top-2])/atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
-                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));                                break;
                             case '^':
-                                itoa(pow(atoi(stack_num.element[stack_num.top-2]), atoi(stack_num.element[stack_num.top-1])), stack_num.element[stack_num.top-2], 10);
+                                sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));                    break;
                                 break;
                         }
                         stack_num.top--;
@@ -133,7 +139,7 @@ int get_result(char* expression){
     for (int j = 0; j < 10; ++j) {
         if (!strcmp(vars[j].name, str)){
             f = 0;
-            itoa(get_result(vars[j].expression),stack_num.element[stack_num.top++],10);
+            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression));
             break;
         }
     }
@@ -145,26 +151,25 @@ int get_result(char* expression){
             printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[i], stack_num.element[stack_num.top-1]);
             switch (stack_op.element[i][0]) {
                 case '+':
-                    itoa(atoi(stack_num.element[stack_num.top-2])+atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));
                     break;
                 case '-':
-                    itoa(atoi(stack_num.element[stack_num.top-2])-atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));
                     break;
                 case '*':
-                    itoa(atoi(stack_num.element[stack_num.top-2])*atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));
                     break;
                 case '/':
-                    itoa(atoi(stack_num.element[stack_num.top-2])/atoi(stack_num.element[stack_num.top-1]), stack_num.element[stack_num.top-2], 10);
+                    sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));
                     break;
                 case '^':
-                    itoa(pow(atoi(stack_num.element[stack_num.top-2]), atoi(stack_num.element[stack_num.top-1])), stack_num.element[stack_num.top-2], 10);
-                    break;
+                    sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));                    break;
             }
             stack_num.top--;
             stack_op.top--;
         }
     }
-    return atoi(stack_num.element[0]);
+    return atof(stack_num.element[0]);
 }
 
 int main() {
@@ -181,7 +186,7 @@ int main() {
         i++;
     }
     printf("\n");
-    printf("\n\n\nanswer: %d\n\n\n", get_result(&expression));
+    printf("\n\n\nanswer: %f\n\n\n", get_result(&expression));
     return 0;
 }
 
