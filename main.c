@@ -11,23 +11,11 @@
  */
 
 /*
- * Vaskorr's update:
- * + Работает с операциями + - * / ^
- * + И даже рекурсивно
- * + Примеры смотрим в samples_for_input.txt и закидываем в input.txt
+ * Sveboo's и совсем чуть-чуть Андреев update:
+ * + Добавлен унарный минус
  *
- * - Надо бы юзать не int, а float
- * - Доделать скобки, а с ними и сложные операции
- * - Добавить унарный минус
- * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
- */
-
-/*
- * Андреев update:
- * + double вместо int
- *
- * - Доделать скобки, а с ними и сложные операции
- * - Добавить унарный минус
+ * - Доделать скобки
+ * - сделать сложные операции
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
 
@@ -60,7 +48,7 @@ int get_priority(char* op){
     return 0;
 }
 
-double get_result(char* expression){
+double get_result(char* expression, int nvars){
     char str[M_STR] = {0}; // Для считывания операндов из более чем одного символа
     stack stack_num = {0}; // Создаем стеки для чисел и операций
     stack stack_op = {0};
@@ -80,11 +68,11 @@ double get_result(char* expression){
             case '/':
             case '^':
                 // ищем числовое значение операнда в списке переменных
-                for (int j = 0; j < 10; ++j) {
+                for (int j = 0; j < nvars; ++j) {
                     if (!strcmp(vars[j].name, str)){
                         f = 0;
                         // тут мы рекурсивно находим значение операнда
-                        sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression));
+                        sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
                         break;
                     }
                 }
@@ -136,10 +124,10 @@ double get_result(char* expression){
     }
 
     // а теперь добиваем строку и стек
-    for (int j = 0; j < 10; ++j) {
+    for (int j = 0; j < nvars; ++j) {
         if (!strcmp(vars[j].name, str)){
             f = 0;
-            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression));
+            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
             break;
         }
     }
@@ -186,7 +174,7 @@ int main() {
         i++;
     }
     printf("\n");
-    printf("\n\n\nanswer: %f\n\n\n", get_result(&expression));
+    printf("\n\n\nanswer: %f\n\n\n", get_result(&expression, i));
     return 0;
 }
 
