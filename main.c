@@ -70,18 +70,20 @@ double get_result(char* expression, int nvars){
             case '^':
                 // ищем числовое значение операнда в списке переменных
                 f = 1;
-                for (int j = 0; j < nvars; ++j) {
-                    if (!strcmp(vars[j].name, str)){
-                        f = 0;
-                        // тут мы рекурсивно находим значение операнда
-                        sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
-                        break;
+                if (strsize != 1){
+                    for (int j = 0; j < nvars; ++j) {
+                        if (!strcmp(vars[j].name, str)){
+                            f = 0;
+                            // тут мы рекурсивно находим значение операнда
+                            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
+                            break;
+                        }
                     }
+                    // а если не нашли такой операнд, значит это число
+                    if (f){ strcpy(stack_num.element[stack_num.top++], str);}
+                    f = 1;
+                    strsize = 1;
                 }
-                // а если не нашли такой операнд, значит это число
-                if (f){ strcpy(stack_num.element[stack_num.top++], str);}
-                f = 1;
-                strsize = 1;
                 // начинаем выкидывать из стека операции с приоритетом не менее текущего
                 for (int j = stack_op.top-1; j >= 0; --j) {
                     if (!stack_op.top){
