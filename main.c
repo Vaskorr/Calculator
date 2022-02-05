@@ -11,16 +11,12 @@
  * Calculator
  * authors (VK ID): maximdood, sveboo, astragor_dragociy, iuliia_kom, vaskorr
  */
-                   // ------- новые апдейты сверху не пишем, меняем этот на свой по правилам ниже ------- //
+                   // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * Vaskorr's update:                                 <<- а теперь о том, как писать апдейты.
- * + пофикшен унарный минус                                  меняем эту строчку на (к примеру) Sveboo's update
- * + почищены комментарии и вывод
- * + пофикшены проблемы со скобками                  <<- тут указываем, какой вклад внесен этим апдейтом
- * + чувствую себя фиксиком
+ * iuliia_kom + vaskorr update:
+ * + добавлена операция pow
  *
- * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)    <<- тут убираем только те строки, которые удалось решить апдейтом
- * - вопросы насчет pow. Нам ещё и запятую обрабатывать?...
+ * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
 
@@ -145,7 +141,8 @@ double get_result(char* expression, int nvars){
                     }
                 }
                 // закидываем операцию в стек с операциями
-                stack_op.element[stack_op.top++][0] = expression[i];
+                stack_op.element[stack_op.top][0] = expression[i];
+                stack_op.element[stack_op.top++][1] = '\0';
                 break;
             case ',':
                 // ищем числовое значение операнда в списке переменных
@@ -272,7 +269,8 @@ double get_result(char* expression, int nvars){
                 }
                 if (!strcmp(stack_op.element[f], "pow(")){
                     printf("do pow(%s,%s)\n", stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
+                    sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
+                    stack_num.top--;
                 }
                 if (!strcmp(stack_op.element[f], "abs(")){
                     printf("do abs(%s)\n", stack_num.element[stack_num.top-1]);
@@ -359,20 +357,6 @@ int main() {
  * И еще список выражений и констант:
  *
  * Operations list:
- * +       +
- * -       +
- * /       +
- * *       +
- * ^       +
- * sqrt    +
- * cos     +
- * sin     +
- * tg      +
- * log     +
- * ln      +
- * pow     +
- * abs     +
- * exp     +
  * real
  * imag
  * mag
