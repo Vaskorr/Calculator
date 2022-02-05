@@ -43,6 +43,7 @@ int get_priority(char* op){
     switch (op[0]) {
         case '+':
         case '-':
+        case ',':
             return 1;
         case'*':
         case'/':
@@ -146,6 +147,57 @@ double get_result(char* expression, int nvars){
                 // закидываем операцию в стек с операциями
                 stack_op.element[stack_op.top++][0] = expression[i];
                 break;
+            case ',':
+                // ищем числовое значение операнда в списке переменных
+                f = 1;
+                if (strsize != 1){
+                    for (int j = 0; j < nvars; ++j) {
+                        if (!strcmp(vars[j].name, str)){
+                            f = 0;
+                            // тут мы рекурсивно находим значение операнда
+                            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
+                            break;
+                        }
+                    }
+                    // а если не нашли такой операнд, значит это число
+                    if (f){
+                        strcpy(stack_num.element[stack_num.top++], str);
+                    }
+                    f = 1;
+                    strsize = 1;
+                }
+                // начинаем выкидывать из стека операции с приоритетом не менее текущего
+                for (int j = stack_op.top-1; j >= 0; --j) {
+                    if (!stack_op.top){
+                        break; // если вдруг стек пуст
+                    }
+                    if(get_priority(&stack_op.element[j][0]) >= get_priority(&expression[i])){
+                        printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[j], stack_num.element[stack_num.top-1]);
+                        // сразу считаем значение, извлекая операцию из стека
+                        switch (stack_op.element[j][0]) {
+                            case '+':
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1])); break;
+                            case '-':
+                                if (stack_num.top == 1){
+                                    sprintf(stack_num.element[stack_num.top-1], "%f", 0-atof(stack_num.element[stack_num.top-1]));
+                                    stack_num.top++;
+                                }else{sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));}
+                                break;
+                            case '*':
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1])); break;
+                            case '/':
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1])); break;
+                            case '^':
+                                sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
+                                break;
+                        }
+                        stack_num.top--;
+                        stack_op.top--;
+                    } else{
+                        break;
+                    }
+                }
+                break;
             case '(' :
                 str[strsize-1] = '(';
                 str[strsize++] = '\0';
@@ -217,6 +269,10 @@ double get_result(char* expression, int nvars){
                 if (!strcmp(stack_op.element[f], "ln(")){
                     printf("do ln(%s)\n", stack_num.element[stack_num.top-1]);
                     sprintf(stack_num.element[stack_num.top-1], "%f", log(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "pow(")){
+                    printf("do pow(%s,%s)\n", stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
                 }
                 if (!strcmp(stack_op.element[f], "abs(")){
                     printf("do abs(%s)\n", stack_num.element[stack_num.top-1]);
@@ -314,7 +370,7 @@ int main() {
  * tg      +
  * log     +
  * ln      +
- * pow
+ * pow     +
  * abs     +
  * exp     +
  * real

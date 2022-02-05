@@ -1,6 +1,4 @@
-sin(a*b^c+exp(4))
-a = 2
-b = n+m
-n = 7
-m = -3
-c = 4/2
+pow(a+b,2*n)
+a = 1
+b = 4
+n = 2
