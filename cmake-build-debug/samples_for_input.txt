@@ -39,3 +39,13 @@ a = -87
 b = 6
 
 answer: -98
+
+sin(a*b^c+exp(4))
+a = 2
+b = n+m
+n = 7
+m = -3
+c = 4/2
+
+answer: -0.979193
+

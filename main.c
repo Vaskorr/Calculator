@@ -11,11 +11,12 @@
  */
 
 /*
- * Sveboo's и совсем чуть-чуть Андреев update:
- * + Добавлен унарный минус
+ * Vaskorr's update:
+ * + добавлена поддержка сложных функций (см. case ')' )
  *
- * - Доделать скобки
- * - сделать сложные операции
+ * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)
+ * - вопросы насчет pow. Нам ещё и запятую обрабатывать?...
+ * - добавить константы в хранилище переменных (список в конце)
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
 
@@ -31,7 +32,7 @@ struct variable{
 };
 
 // хранилище переменных
-struct variable vars[10] = {0};
+struct variable vars[30] = {0};
 
 // получение приоритета функций
 int get_priority(char* op){
@@ -68,6 +69,7 @@ double get_result(char* expression, int nvars){
             case '/':
             case '^':
                 // ищем числовое значение операнда в списке переменных
+                f = 1;
                 for (int j = 0; j < nvars; ++j) {
                     if (!strcmp(vars[j].name, str)){
                         f = 0;
@@ -86,6 +88,7 @@ double get_result(char* expression, int nvars){
                         break; // если вдруг стек пуст
                     }
                     if(get_priority(&stack_op.element[j][0]) >= get_priority(&expression[i])){
+                        printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[j], stack_num.element[stack_num.top-1]);
                         // сразу считаем значение, извлекая операцию из стека
                         switch (stack_op.element[j][0]) {
                             case '+':
@@ -110,10 +113,78 @@ double get_result(char* expression, int nvars){
                 stack_op.element[stack_op.top++][0] = expression[i];
                 break;
             case '(' :
-                // остается дописать скобочки
+                str[strsize-1] = '(';
+                str[strsize++] = '\0';
+                strcpy(stack_op.element[stack_op.top++], str);
+                strsize = 1;
                 break;
             case ')' :
-                // и эти тоже
+                f = 1;
+                for (int j = 0; j < nvars; ++j) {
+                    if (!strcmp(vars[j].name, str)){
+                        f = 0;
+                        // тут мы рекурсивно находим значение операнда
+                        sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
+                        break;
+                    }
+                }
+                // а если не нашли такой операнд, значит это число
+                if (f && strsize != 1){ strcpy(stack_num.element[stack_num.top++], str);}
+                f = 1;
+                strsize = 1;
+                for (int j = stack_op.top-1; j >= 0; --j) {
+                    if (!stack_op.top || stack_op.element[j][strlen(stack_op.element[j])-1] == '('){
+                        f = j;
+                        break; // если вдруг стек пуст
+                    }
+                    printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[j], stack_num.element[stack_num.top-1]);
+                    // сразу считаем значение, извлекая операцию из стека
+                    switch (stack_op.element[j][0]) {
+                        case '+':
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));                                break;
+                        case '-':
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));                                break;
+                        case '*':
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));                                break;
+                        case '/':
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));                                break;
+                        case '^':
+                            sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));                    break;
+                            break;
+                    }
+                    stack_num.top--;
+                    stack_op.top--;
+                }
+                // и вот сюда вот дописываем сложные функции
+                if (!strcmp(stack_op.element[f], "sqrt(")){
+                    printf("do sqrt(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", sqrt(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "sin(")){
+                    printf("do sin(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", sin(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "cos(")){
+                    printf("do cos(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", cos(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "tg(")){
+                    printf("do tg(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", tan(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "log(")){
+                    printf("do log(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", log10(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "ln(")){
+                    printf("do ln(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", log(atof(stack_num.element[stack_num.top-1])));
+                }
+                if (!strcmp(stack_op.element[f], "exp(")){
+                    printf("do exp(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", exp(atof(stack_num.element[stack_num.top-1])));
+                }
+                stack_op.top--;
                 break;
             default:
                 // Сохраняем кусок операнда
@@ -170,7 +241,7 @@ int main() {
     // добавляем переменные
     while (!feof(input)) {
         fscanf(input,"%s = %s", &vars[i].name, &vars[i].expression);
-        printf("varname: %s\n value: %s\n", vars[i].name, vars[i].expression);
+        printf("varname: %s\n value:  %s\n", vars[i].name, vars[i].expression);
         i++;
     }
     printf("\n");
@@ -182,20 +253,20 @@ int main() {
  * И еще список выражений и констант:
  *
  * Operations list:
- * +
- * -
- * /
- * *
- * ^
- * sqrt
- * cos
- * sin
- * tg
- * log
- * ln
+ * +       +
+ * -       +
+ * /       +
+ * *       +
+ * ^       +
+ * sqrt    +
+ * cos     +
+ * sin     +
+ * tg      +
+ * log     +
+ * ln      +
  * pow
  * abs
- * exp
+ * exp     +
  * real
  * imag
  * mag
