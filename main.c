@@ -1,13 +1,22 @@
 #define M_STACK 100
 #define M_STR 100
+#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
 
+
 /*
  * Calculator
  * authors (VK ID): maximdood, sveboo, astragor_dragociy, iuliia_kom, vaskorr
+ */
+
+/*
+ * NewRonin's small update:
+ * + Добавлена функция для инициации констатант
+ * + Добавлены константы PI, e.
+ * - Что есть ваша j? Не нашел ее в перечне встроенных математических констант.
  */
 
 /*
@@ -49,6 +58,29 @@ int get_priority(char* op){
     return 0;
 }
 
+int init_const(struct variable *vars){
+    // Сюда константы
+    int count = 0;
+    char buf[M_STR] = {0};
+    printf("%f %f", M_PI, M_E);
+
+    // PI
+    strcpy(vars[count].name, "PI");
+    sprintf(buf, "%f", M_PI);
+    strcpy(vars[count].expression, buf);
+    buf[0] = '\0';
+    count++;
+
+    // e
+    strcpy(vars[count].name, "e");
+    sprintf(buf, "%f", M_E);
+    strcpy(vars[count].expression, buf);
+    buf[0] = '\0';
+    count++;
+
+    return count;
+}
+
 double get_result(char* expression, int nvars){
     char str[M_STR] = {0}; // Для считывания операндов из более чем одного символа
     stack stack_num = {0}; // Создаем стеки для чисел и операций
@@ -80,7 +112,9 @@ double get_result(char* expression, int nvars){
                         }
                     }
                     // а если не нашли такой операнд, значит это число
-                    if (f){ strcpy(stack_num.element[stack_num.top++], str);}
+                    if (f){
+                        strcpy(stack_num.element[stack_num.top++], str);
+                    }
                     f = 1;
                     strsize = 1;
                 }
@@ -239,7 +273,8 @@ int main() {
     char expression[50] = {0};  // тут будет наше математическое выражение
     fgets(expression, 100, input);
     printf("your expression: %s\nyour variables:\n", expression);
-    int i = 0;
+    /* Инициируем константы */
+    int i = init_const(vars);
     // добавляем переменные
     while (!feof(input)) {
         fscanf(input,"%s = %s", &vars[i].name, &vars[i].expression);
@@ -275,7 +310,7 @@ int main() {
  * phase
  *
  * Constants:
- * PI
- * e
+ * PI +
+ * e +
  * j
  */
