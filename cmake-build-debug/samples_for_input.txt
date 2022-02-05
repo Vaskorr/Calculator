@@ -1,14 +1,13 @@
-a*b+c+25/e+f*g+h+32
+a*b+c+25/5+f*g+h+32
 a = 1
 b = 2
 c = 3
 d = 4
-e = 5
 f = 6
 h = 7
 g = 8
 
-answer: 97
+answer: 97.000000
 
 a+b*c^n
 a = 3
@@ -16,14 +15,14 @@ b = 4
 c = 2
 n = 4
 
-answer: 67
+answer: 67.000000
 
 alpha+beta^delta
 alpha = 1
 beta = 2
 delta = 3
 
-answer: 9
+answer: 9.000000
 
 a+b*c
 a = n^k
@@ -32,13 +31,13 @@ c = 3
 n = 2
 k = 3
 
-answer: 38
+answer: 38.000000
 
 -9+4+a-b
 a = -87
 b = 6
 
-answer: -98
+answer: -98.000000
 
 sin(a*b^c+exp(4))
 a = 2
@@ -49,3 +48,6 @@ c = 4/2
 
 answer: -0.979193
 
+(1+2)^(3+4)
+
+answer: 2187.000000

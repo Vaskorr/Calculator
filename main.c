@@ -11,21 +11,16 @@
  * Calculator
  * authors (VK ID): maximdood, sveboo, astragor_dragociy, iuliia_kom, vaskorr
  */
-
+                   // ------- новые апдейты сверху не пишем, меняем этот на свой по правилам ниже ------- //
 /*
- * NewRonin's small update:
- * + Добавлена функция для инициации констатант
- * + Добавлены константы PI, e.
- * - Что есть ваша j? Не нашел ее в перечне встроенных математических констант.
- */
-
-/*
- * Vaskorr's update:
- * + добавлена поддержка сложных функций (см. case ')' )
+ * Vaskorr's update:                                 <<- а теперь о том, как писать апдейты.
+ * + пофикшен унарный минус                                  меняем эту строчку на (к примеру) Sveboo's update
+ * + почищены комментарии и вывод
+ * + пофикшены проблемы со скобками                  <<- тут указываем, какой вклад внесен этим апдейтом
+ * + чувствую себя фиксиком
  *
- * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)
+ * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)    <<- тут убираем только те строки, которые удалось решить апдейтом
  * - вопросы насчет pow. Нам ещё и запятую обрабатывать?...
- * - добавить константы в хранилище переменных (список в конце)
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
 
@@ -60,9 +55,8 @@ int get_priority(char* op){
 
 int init_const(struct variable *vars){
     // Сюда константы
-    int count = 0;
     char buf[M_STR] = {0};
-    printf("%f %f", M_PI, M_E);
+    int count = 0;
 
     // PI
     strcpy(vars[count].name, "PI");
@@ -128,15 +122,19 @@ double get_result(char* expression, int nvars){
                         // сразу считаем значение, извлекая операцию из стека
                         switch (stack_op.element[j][0]) {
                             case '+':
-                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));break;
                             case '-':
-                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));                                break;
+                                if (stack_num.top == 1){
+                                    sprintf(stack_num.element[stack_num.top-1], "%f", 0-atof(stack_num.element[stack_num.top-1]));
+                                    stack_num.top++;
+                                }else{sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));}
+                                break;
                             case '*':
-                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));break;
                             case '/':
-                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));                                break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));break;
                             case '^':
-                                sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));                    break;
+                                sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
                                 break;
                         }
                         stack_num.top--;
@@ -177,15 +175,19 @@ double get_result(char* expression, int nvars){
                     // сразу считаем значение, извлекая операцию из стека
                     switch (stack_op.element[j][0]) {
                         case '+':
-                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));                                break;
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));break;
                         case '-':
-                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));                                break;
+                            if (stack_num.top == 1){
+                                sprintf(stack_num.element[stack_num.top-1], "%f", 0-atof(stack_num.element[stack_num.top-1]));
+                                stack_num.top++;
+                            }else{sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));}
+                            break;
                         case '*':
-                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));                                break;
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));break;
                         case '/':
-                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));                                break;
+                            sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])/atof(stack_num.element[stack_num.top-1]));break;
                         case '^':
-                            sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));                    break;
+                            sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
                             break;
                     }
                     stack_num.top--;
@@ -232,17 +234,21 @@ double get_result(char* expression, int nvars){
                 str[strsize++] = '\0';
                 break;
         }
+
     }
 
     // а теперь добиваем строку и стек
-    for (int j = 0; j < nvars; ++j) {
-        if (!strcmp(vars[j].name, str)){
-            f = 0;
-            sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
-            break;
+    if (strsize!= 1){
+        for (int j = 0; j < nvars; ++j) {
+            if (!strcmp(vars[j].name, str)){
+                f = 0;
+                sprintf(stack_num.element[stack_num.top++], "%f", get_result(vars[j].expression, nvars));
+                break;
+            }
         }
+        if (f){strcpy(stack_num.element[stack_num.top++], str);}
     }
-    if (f){strcpy(stack_num.element[stack_num.top++], str);}
+
     f = 1;
     if(stack_op.top){
         for (int i = stack_op.top-1; i >= 0; --i) {
@@ -253,7 +259,10 @@ double get_result(char* expression, int nvars){
                     sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])+atof(stack_num.element[stack_num.top-1]));
                     break;
                 case '-':
-                    sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));
+                    if (stack_num.top == 1){
+                        sprintf(stack_num.element[stack_num.top-1], "%f", 0-atof(stack_num.element[stack_num.top-1]));
+                        stack_num.top++;
+                    }else{sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])-atof(stack_num.element[stack_num.top-1]));}
                     break;
                 case '*':
                     sprintf(stack_num.element[stack_num.top-2], "%f", atof(stack_num.element[stack_num.top-2])*atof(stack_num.element[stack_num.top-1]));
@@ -312,9 +321,4 @@ int main() {
  * imag
  * mag
  * phase
- *
- * Constants:
- * PI +
- * e +
- * j
  */
