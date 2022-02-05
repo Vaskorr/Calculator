@@ -216,6 +216,10 @@ double get_result(char* expression, int nvars){
                     printf("do ln(%s)\n", stack_num.element[stack_num.top-1]);
                     sprintf(stack_num.element[stack_num.top-1], "%f", log(atof(stack_num.element[stack_num.top-1])));
                 }
+                if (!strcmp(stack_op.element[f], "abs(")){
+                    printf("do abs(%s)\n", stack_num.element[stack_num.top-1]);
+                    sprintf(stack_num.element[stack_num.top-1], "%f", fabs(atof(stack_num.element[stack_num.top-1])));
+                }
                 if (!strcmp(stack_op.element[f], "exp(")){
                     printf("do exp(%s)\n", stack_num.element[stack_num.top-1]);
                     sprintf(stack_num.element[stack_num.top-1], "%f", exp(atof(stack_num.element[stack_num.top-1])));
@@ -302,7 +306,7 @@ int main() {
  * log     +
  * ln      +
  * pow
- * abs
+ * abs     +
  * exp     +
  * real
  * imag
