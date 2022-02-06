@@ -13,12 +13,14 @@
  */
                    // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * iuliia_kom + vaskorr update:
- * + добавлена операция pow
+ * sveboo update:
+ * +добавлен указатель на функцию
  *
  * - добавить остальные функции (готовые отмечены знаком "+" в самом конце файла)
  * - стек будет пробовать сложить комплексные числа, например 1+0.3j, надо как-то это обработать
  */
+
+
 
 // структура стека
 typedef struct stack{
@@ -70,6 +72,19 @@ int init_const(struct variable *vars){
     count++;
 
     return count;
+}
+
+//поиск сложной функции
+double* findFunction(char *expression){
+    if (!strcmp(expression, "sqrt(")){ return &sqrt;}
+    if (!strcmp(expression, "sin(")){return &sin;}
+    if (!strcmp(expression, "cos(")){return &cos;}
+    if (!strcmp(expression, "tg(")){return &tan;}
+    if (!strcmp(expression, "log(")){return &log10;}
+    if (!strcmp(expression, "ln(")){return &log;}
+    if (!strcmp(expression, "abs(")){return &fabs;}
+    if (!strcmp(expression, "exp(")){return &exp;}
+    return NULL;
 }
 
 double get_result(char* expression, int nvars){
@@ -195,42 +210,19 @@ double get_result(char* expression, int nvars){
                     stack_op.top--;
                 }
                 // и вот сюда вот дописываем сложные функции
-                if (!strcmp(stack_op.element[f], "sqrt(")){
-                    printf("do sqrt(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", sqrt(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "sin(")){
-                    printf("do sin(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", sin(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "cos(")){
-                    printf("do cos(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", cos(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "tg(")){
-                    printf("do tg(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", tan(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "log(")){
-                    printf("do log(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", log10(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "ln(")){
-                    printf("do ln(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", log(atof(stack_num.element[stack_num.top-1])));
-                }
                 if (!strcmp(stack_op.element[f], "pow(")){
                     printf("do pow(%s,%s)\n", stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                     sprintf(stack_num.element[stack_num.top-2], "%f", pow(atof(stack_num.element[stack_num.top-2]), atof(stack_num.element[stack_num.top-1])));
                     stack_num.top--;
                 }
-                if (!strcmp(stack_op.element[f], "abs(")){
-                    printf("do abs(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", fabs(atof(stack_num.element[stack_num.top-1])));
-                }
-                if (!strcmp(stack_op.element[f], "exp(")){
-                    printf("do exp(%s)\n", stack_num.element[stack_num.top-1]);
-                    sprintf(stack_num.element[stack_num.top-1], "%f", exp(atof(stack_num.element[stack_num.top-1])));
+
+                else {
+                    double (*operation)(double) = findFunction(stack_op.element[f]);//проверяем:является ли элемент сложной ф-цией
+                    if (operation) {
+                        printf("%s%s)\n", stack_op.element[f], stack_num.element[stack_num.top - 1]);
+                        sprintf(stack_num.element[stack_num.top - 1], "%f",
+                                operation(atof(stack_num.element[stack_num.top - 1])));
+                    }
                 }
                 stack_op.top--;
                 break;
