@@ -2,8 +2,6 @@
 #include "complex.h"
 
 
-char* global; // вспомогательная штука
-
 // получение приоритета функций
 int get_priority(char* op){
     switch (op[0]) {
@@ -21,241 +19,94 @@ int get_priority(char* op){
 }
 
 
-// конвертация в нужную форму записи
-char* convert(char* expression) {
-    char* ret = malloc(sizeof expression);
-    // i-ная форма
-    if (!strcmp(expression, "j")) {return "0_1";}
-    if (!strcmp(expression, "-j")) {return "0_-1";}
-    if (expression[strlen(expression)-1] == 'j') {
-        sprintf(ret, "0_%s", expression);
-        ret[strlen(ret)-1] = '\0';
-        return ret;
+double complex add(double complex a, double complex b) {
+    return a+b;
+}
+
+
+double complex sub(double complex a, double complex b) {
+    return a-b;
+}
+
+
+double complex divide(double complex a, double complex b) {
+    if (!b) {
+        printf("Fuck you, dumbass");
+        exit(1);}
+    return a/b;
+}
+
+
+double complex mult(double complex a, double complex b) {
+    return a*b;
+}
+
+
+double complex power(double complex a, double complex b) {
+    return cpow(a, b);
+}
+
+
+double complex cxcos(double complex a) {
+    return ccos(a);
+}
+
+
+double complex cxsin(double complex a) {
+    return csin(a);
+}
+
+
+double complex cxtan(double complex a) {
+    if (!ccos(a)) {
+        printf("Fuck you, dumbass");
+        exit(1);
     }
-    // норм форма
-    if (strchr(expression, '_')) {
-        sprintf(ret, "%s", expression);
-        return ret;
+    return ctan(a);
+}
+
+
+double complex cxsqrt(double complex a) {
+    return csqrt(a);
+}
+
+
+double complex cxabs(double complex a) {
+    return cabs(a);
+}
+
+
+double complex cxexp(double complex a) {
+    return cexp(a);
+}
+
+
+double complex cxln(double complex a) {
+    if (!a) {
+        printf("Fuck you, dumbass");
+        exit(1);
     }
-    // и наконец просто дробь
-    sprintf(ret, "%s_0", expression);
-    return ret;
+    return clog(a);
 }
 
-// сложение
-char* add(char arg1[M_STR], char arg2[M_STR]) {
-    char* ret = malloc(sizeof global);
-    memset(ret, 0, sizeof ret);
-    strcpy(arg1, convert(arg1));
-    strcpy(arg2, convert(arg2));
-    double r1, i1, r2, i2;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sscanf(arg2, "%lf_%lf", &r2, &i2);
-    double complex c1 = r1 + i1*I;
-    double complex c2 = r2 + i2*I;
-    sprintf(ret, "%lf_%lf", crealf(c1+c2), cimagf(c1+c2));
-    return ret;
-}
 
-// вычитание
-char* sub(char arg1[M_STR], char arg2[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    strcpy(arg2, convert(arg2));
-    double r1, i1, r2, i2;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sscanf(arg2, "%lf_%lf", &r2, &i2);
-    double complex c1 = r1 + i1*I;
-    double complex c2 = r2 + i2*I;
-    sprintf(ret, "%lf_%lf", crealf(c1-c2), cimagf(c1-c2));
-    return ret;
-}
-
-// деление
-char* divide(char arg1[M_STR], char arg2[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    strcpy(arg2, convert(arg2));
-    double r1, i1, r2, i2;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sscanf(arg2, "%lf_%lf", &r2, &i2);
-    double complex c1 = r1 + i1*I;
-    double complex c2 = r2 + i2*I;
-    sprintf(ret, "%lf_%lf", crealf(c1/c2), cimagf(c1/c2));
-    return ret;
-}
-
-// умножение
-char* mult(char arg1[M_STR], char arg2[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    strcpy(arg2, convert(arg2));
-    double r1, i1, r2, i2;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sscanf(arg2, "%lf_%lf", &r2, &i2);
-    double complex c1 = r1 + i1*I;
-    double complex c2 = r2 + i2*I;
-    sprintf(ret, "%lf_%lf", crealf(c1*c2), cimagf(c1*c2));
-    return ret;
-}
-
-// возведение в степень
-char* power(char arg1[M_STR], char arg2[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    strcpy(arg2, convert(arg2));
-    double r1, i1, r2, i2;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sscanf(arg2, "%lf_%lf", &r2, &i2);
-    if (!i1 && !i2) {
-        sprintf(ret, "%lf_0", pow(r1, r2));
-        return ret;
+double complex cxlog10(double complex a) {
+    if (!a) {
+        printf("Fuck you, dumbass");
+        exit(1);
     }
-    double complex c1 = r1 + i1*I;
-    double complex c2 = r2 + i2*I;
-    sprintf(ret, "%lf_%lf", crealf(cpowf(c1, c2)), cimagf(cpowf(c1, c2)));
-    return ret;
+    return clog(a) / clog(10);
 }
 
-// унарный минус
-char* unary_min(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = r1 + i1*I;
-    sprintf(ret, "%lf_%lf", crealf(-c), cimagf(-c));
-    return ret;
-}
 
-// синус
-char* cxsin(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = csinf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// косинус
-char* cxcos(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = ccosf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// тангенс
-char* cxtan(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = ctanf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// квадратный корень
-char* cxsqrt(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    if (!i1) {
-        if (r1 >= 0) {sprintf(ret, "%lf_0", sqrt(r1));}
-        if (r1 < 0) {sprintf(ret, "0_%lf", sqrt(-r1));}
-        return ret;
-    }
-    double complex c = csqrtf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// натуральный логарифм
-char* cxln(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = clogf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// е в степени
-char* cxexp(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = cexpf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// модуль
-char* cxabs(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sprintf(ret, "%lf_0", sqrt(r1*r1+i1*i1));
-    return ret;
-}
-
-// действительная часть
-char* cxreal(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sprintf(ret, "%lf_0", r1);
-    return ret;
-}
-
-// мнимая часть
-char* cximag(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    sprintf(ret, "0_%lf", i1);
-    return ret;
-}
-
-// десятичный логарифм
-char* cxlog10(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = clogf(r1 + i1*I);
-    c = c / log(10);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
-}
-
-// фаза
-char* cxphase(char arg1[M_STR]) {
-    char* ret = malloc(sizeof global);
-    strcpy(arg1, convert(arg1));
-    double r1, i1;
-    sscanf(arg1, "%lf_%lf", &r1, &i1);
-    double complex c = cargf(r1 + i1*I);
-    sprintf(ret, "%lf_%lf", crealf(c), cimagf(c));
-    return ret;
+double complex cxphase(double complex a) {
+    return carg(a);
 }
 
 
 //поиск сложной функции
-char* findFunction(char *expression){
-    if (!strcmp(expression, "sqrt(")){ return &cxsqrt;}
+complex double* findFunction(char *expression){
+    if (!strcmp(expression, "sqrt(")){ return (complex double *) &cxsqrt;}
     if (!strcmp(expression, "sin(")){return &cxsin;}
     if (!strcmp(expression, "cos(")){return &cxcos;}
     if (!strcmp(expression, "tg(")){return &cxtan;}
@@ -264,8 +115,22 @@ char* findFunction(char *expression){
     if (!strcmp(expression, "abs(")){return &cxabs;}
     if (!strcmp(expression, "mag(")){return &cxabs;}
     if (!strcmp(expression, "exp(")){return &cxexp;}
-    if (!strcmp(expression, "real(")){return &cxreal;}
-    if (!strcmp(expression, "imag(")){return &cximag;}
+    if (!strcmp(expression, "real(")){return &creal;}
+    if (!strcmp(expression, "imag(")){return &cimag;}
     if (!strcmp(expression, "phase(")){return &cxphase;}
     return NULL;
 }
+
+
+double complex convert(char* str) {
+    double i;
+    if (!strcmp("j", str)) {return I;}
+    if (!strcmp("-j", str)) {return -1*I;}
+    if (str[strlen(str)-1] == 'j') {
+        sscanf(str, "%lfj", &i);
+        return i*I;
+    }
+    sscanf(str, "%lf", &i);
+    return i + 0*I;
+}
+
