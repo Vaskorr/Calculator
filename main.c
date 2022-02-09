@@ -12,13 +12,11 @@
  */
                    // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * Андреев и Светин мини update:
- * + поубирали варны, лишние значения
- * + функции вынесены в отдельный файл
- * + комментарии
+ * Юлин мини update:
+ * + вывод по действиям
+ * + комплексные числа выводятся в виде (-1+6i)
  *
- * - скобки.
- * - опционально вывод по действиям
+ * - скобки
  */
 
 
@@ -67,6 +65,21 @@ int init_const(struct variable *vars){
 }
 
 
+// вывод числа
+void Print(double complex number) {
+    if (creal(number) && cimag(number)) {
+        printf("(%.5lf", creal(number));
+        printf(cimag(number) > 0 ? "+%.5lfi)" : "%.5lfi)", cimag(number));
+    }
+    else if (cimag(number)) {
+        printf("%.5lfi", cimag(number));
+    }
+    else {
+        printf("%.5lf", creal(number));
+    }
+}
+
+
 double complex get_result(char* expression, int nvars){
     char str[M_STR] = {0}; // Для считывания операндов из более чем одного символа
     cstack stack_num = {0}; // Создаем стеки для чисел и операций
@@ -111,7 +124,13 @@ double complex get_result(char* expression, int nvars){
                         break; // если вдруг стек пуст
                     }
                     if(get_priority(&stack_op.element[j][0]) >= get_priority(&expression[i])){
-                        // printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[j], stack_num.element[stack_num.top-1]);
+                        printf("do ");
+                        if (stack_num.top != 1 || stack_op.element[j][0] != '-') {
+                            Print(stack_num.element[stack_num.top - 2]);
+                            printf("%s", stack_op.element[j]);
+                            Print(stack_num.element[stack_num.top - 1]);
+                            printf("\n");
+                        }
                         // сразу считаем значение, извлекая операцию из стека
                         switch (stack_op.element[j][0]) {
                             case '+':
@@ -119,6 +138,9 @@ double complex get_result(char* expression, int nvars){
                                 break;
                             case '-':
                                 if (stack_num.top == 1){
+                                    printf("-(");
+                                    Print(stack_num.element[stack_num.top - 1]);
+                                    printf(")\n");
                                     stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
                                     stack_num.top++;
                                 }else{
@@ -175,7 +197,13 @@ double complex get_result(char* expression, int nvars){
                         f = j;
                         break; // если вдруг стек пуст
                     }
-                    // printf("do %f%s%f\n", creal(stack_num.element[stack_num.top-2]),stack_op.element[j], creal(stack_num.element[stack_num.top-1]));
+                    printf("do ");
+                    if (stack_num.top != 1 || stack_op.element[j][0] != '-') {
+                        Print(stack_num.element[stack_num.top - 2]);
+                        printf("%s", stack_op.element[j]);
+                        Print(stack_num.element[stack_num.top - 1]);
+                        printf("\n");
+                    }
                     // сразу считаем значение, извлекая операцию из стека
                     switch (stack_op.element[j][0]) {
                         case '+':
@@ -183,6 +211,9 @@ double complex get_result(char* expression, int nvars){
                             break;
                         case '-':
                             if (stack_num.top == 1){
+                                printf("-(");
+                                Print(stack_num.element[stack_num.top - 1]);
+                                printf(")\n");
                                 stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
                                 stack_num.top++;
                             }else{
@@ -204,7 +235,11 @@ double complex get_result(char* expression, int nvars){
                 }
                 // степень отдельно, т.к. 2 аргумента
                 if (!strcmp(stack_op.element[f], "pow(")){
-                    //printf("do pow(%s,%s)\n", stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
+                    printf("do pow(");
+                    Print(stack_num.element[stack_num.top-2]);
+                    printf(",");
+                    Print(stack_num.element[stack_num.top-1]);
+                    printf(")\n");
                     stack_num.element[stack_num.top-2] = power(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                     stack_num.top--;
                 }
@@ -213,7 +248,9 @@ double complex get_result(char* expression, int nvars){
                     // уКаЗаТеЛь На ФуНкЦиЮ
                     double complex (*operation)(double complex) = findFunction(stack_op.element[f]); //проверяем: является ли элемент сложной ф-цией
                     if (operation) {
-                        // printf("%s%s)\n", stack_op.element[f], stack_num.element[stack_num.top - 1]);
+                        printf("do %s", stack_op.element[f]);
+                        Print(stack_num.element[stack_num.top-1]);
+                        printf(")\n");
                         stack_num.element[stack_num.top - 1] = operation(stack_num.element[stack_num.top - 1]);
                     }
                 }
@@ -244,14 +281,23 @@ double complex get_result(char* expression, int nvars){
 
     if(stack_op.top){
         for (int i = stack_op.top-1; i >= 0; --i) {
+            printf("do ");
+            if (stack_num.top != 1 || stack_op.element[i][0] != '-') {
+                Print(stack_num.element[stack_num.top - 2]);
+                printf("%s", stack_op.element[i]);
+                Print(stack_num.element[stack_num.top - 1]);
+                printf("\n");
+            }
             // добавляем операцию в стек
-            // printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[i], stack_num.element[stack_num.top-1]);
             switch (stack_op.element[i][0]) {
                 case '+':
                     stack_num.element[stack_num.top-2] = add(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                     break;
                 case '-':
                     if (stack_num.top == 1){
+                        printf("-(");
+                        Print(stack_num.element[stack_num.top-1]);
+                        printf(")\n");
                         stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
                         stack_num.top++;
                     }else{
@@ -291,7 +337,7 @@ int main() {
     }
     printf("\n");
     double complex answer = get_result(&expression, i);
-    double rans = creal(answer), ians = cimag(answer);
-    printf("Answer: (%.5lf, %.5lfi)", rans, ians);
+    printf("\nanswer: ");
+    Print(answer);
     return 0;
 }
