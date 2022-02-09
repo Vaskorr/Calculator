@@ -155,25 +155,27 @@ double complex get_result(char* expression, int nvars){
                 break;
             case ')' :
                 f = 1;
-                for (int j = 0; j < nvars; ++j) {
-                    if (!strcmp(vars[j].name, str)){
-                        f = 0;
-                        // тут мы рекурсивно находим значение операнда
-                        stack_num.element[stack_num.top++] = get_result(vars[j].expression, nvars);
-                        break;
+                if (strsize > 1){
+                    for (int j = 0; j < nvars; ++j) {
+                        if (!strcmp(vars[j].name, str)){
+                            f = 0;
+                            // тут мы рекурсивно находим значение операнда
+                            stack_num.element[stack_num.top++] = get_result(vars[j].expression, nvars);
+                            break;
+                        }
                     }
+                    // а если не нашли такой операнд, значит это число
+                    if (f && strsize != 1){
+                        stack_num.element[stack_num.top++] = convert(str);}
+                    f = 1;
+                    strsize = 1;
                 }
-                // а если не нашли такой операнд, значит это число
-                if (f && strsize != 1){
-                    stack_num.element[stack_num.top++] = convert(str);}
-                f = 1;
-                strsize = 1;
                 for (int j = stack_op.top-1; j >= 0; --j) {
                     if (!stack_op.top || stack_op.element[j][strlen(stack_op.element[j])-1] == '('){
                         f = j;
                         break; // если вдруг стек пуст
                     }
-                    // printf("do %s%s%s\n", stack_num.element[stack_num.top-2],stack_op.element[j], stack_num.element[stack_num.top-1]);
+                    // printf("do %f%s%f\n", creal(stack_num.element[stack_num.top-2]),stack_op.element[j], creal(stack_num.element[stack_num.top-1]));
                     // сразу считаем значение, извлекая операцию из стека
                     switch (stack_op.element[j][0]) {
                         case '+':
