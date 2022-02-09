@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/calc.dir/functions.c.obj"
   "CMakeFiles/calc.dir/main.c.obj"
   "calc.exe"
   "calc.exe.manifest"

@@ -1,8 +1,9 @@
-#define M_STACK 100
 #define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <string.h>
+#include <complex.h>
 #include "functions.h"
+#include <math.h>
 
 
 /*
@@ -11,15 +12,14 @@
  */
                    // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * Андреев мини update:
- * + ограничения говорят, что именно не так
- * + новая функция для сравнения с некоторой точностью
+ * Андреев и Светин мини update:
+ * + поубирали варны, лишние значения
+ * + функции вынесены в отдельный файл
+ * + комментарии
  *
- * - что-то с корнем
- * - сделать адекватный вывод действий с использованием creal, cimag (сейчас он закомментирован) необязательно
- * - покомментить
+ * - скобки.
+ * - опционально вывод по действиям
  */
-
 
 
 // структура стека
@@ -149,7 +149,7 @@ double complex get_result(char* expression, int nvars){
                 break;
             case '(' :
                 str[strsize-1] = '(';
-                str[strsize++] = '\0';
+                str[strsize] = '\0';
                 strcpy(stack_op.element[stack_op.top++], str);
                 strsize = 1;
                 break;
@@ -240,7 +240,6 @@ double complex get_result(char* expression, int nvars){
         }
     }
 
-    f = 1;
     if(stack_op.top){
         for (int i = stack_op.top-1; i >= 0; --i) {
             // добавляем операцию в стек

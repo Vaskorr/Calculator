@@ -76,6 +76,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.c">
+			<Option target="calc"/>
+		</Unit>
+		<Unit filename="C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.h">
+			<Option target="calc"/>
+		</Unit>
 		<Unit filename="C:/Users/akimo/Documents/GitHub/Calculator-origin/main.c">
 			<Option target="calc"/>
 		</Unit>

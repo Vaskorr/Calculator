@@ -7,18 +7,16 @@
 #IncludeRegexTransform: 
 
 C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.h
-complex.h
--
-math.h
--
-stdlib.h
--
 
 C:/Users/akimo/Documents/GitHub/Calculator-origin/main.c
 stdio.h
 -
 string.h
 -
+complex.h
+-
 functions.h
 C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.h
+math.h
+-
 
