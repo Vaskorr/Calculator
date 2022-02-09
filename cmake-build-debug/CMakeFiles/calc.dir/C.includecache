@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.h
+C:/Users/vasko/GITHUB/Calculator/functions.h
 complex.h
-C:/Users/akimo/Documents/GitHub/Calculator-origin/complex.h
+C:/Users/vasko/GITHUB/Calculator/complex.h
 
-C:/Users/akimo/Documents/GitHub/Calculator-origin/main.c
+C:/Users/vasko/GITHUB/Calculator/main.c
 stdio.h
 -
 stdlib.h
@@ -20,5 +20,5 @@ math.h
 string.h
 -
 functions.h
-C:/Users/akimo/Documents/GitHub/Calculator-origin/functions.h
+C:/Users/vasko/GITHUB/Calculator/functions.h
 

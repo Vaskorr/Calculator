@@ -298,8 +298,8 @@ int main() {
     // форматирование
     if (fabs(ians) < 0.00001) {ians = 0;}
     if (fabs(rans) < 0.00001) {rans = 0;}
-    if (ians > 0) { printf("%.6lf + %.6lfi", rans, ians);}
-    if (ians < 0) { printf("%.6lf - %.6lfi", rans, fabs(ians));}
-    if (ians== 0) { printf("%.5lf", rans);}
+    if (ians > 0) { printf("answer: %.6lf + %.6lfi\n", rans, ians);}
+    if (ians < 0) { printf("answer: %.6lf - %.6lfi\n", rans, fabs(ians));}
+    if (ians== 0) { printf("answer: %.5lf\n", rans);}
     return 0;
 }
