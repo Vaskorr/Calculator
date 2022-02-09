@@ -1,8 +1,6 @@
 #define M_STACK 100
 #define _USE_MATH_DEFINES
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include <string.h>
 #include "functions.h"
 
@@ -13,15 +11,13 @@
  */
                    // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * Андреев & Sveboo's update:
- * + улучшено хранение чисел (сразу в комплексной форме)
- * + наложены ограничения на функции логарифмов, тангенса и деления
+ * Андреев мини update:
+ * + ограничения говорят, что именно не так
+ * + новая функция для сравнения с некоторой точностью
  *
- * - ломать и чинить, вдруг ещё не всё работает
- * - сделать адекватный вывод действий с использованием creal, cimag (сейчас он закомментирован)
- * - проверить, не нужны ли ограничения ещё где-то
+ * - что-то с корнем
+ * - сделать адекватный вывод действий с использованием creal, cimag (сейчас он закомментирован) необязательно
  * - покомментить
- * - сделать ограничения функций менее неприличными
  */
 
 
@@ -295,11 +291,6 @@ int main() {
     printf("\n");
     double complex answer = get_result(&expression, i);
     double rans = creal(answer), ians = cimag(answer);
-    // форматирование
-    if (fabs(ians) < 0.00001) {ians = 0;}
-    if (fabs(rans) < 0.00001) {rans = 0;}
-    if (ians > 0) { printf("answer: %.6lf + %.6lfi\n", rans, ians);}
-    if (ians < 0) { printf("answer: %.6lf - %.6lfi\n", rans, fabs(ians));}
-    if (ians== 0) { printf("answer: %.5lf\n", rans);}
+    printf("Answer: (%.5lf, %.5lfi)", rans, ians);
     return 0;
 }
