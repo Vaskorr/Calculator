@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/calc/functions.h
+
+D:/calc/main.c
+stdio.h
+-
+string.h
+-
+complex.h
+-
+functions.h
+D:/calc/functions.h
+math.h
+-
+

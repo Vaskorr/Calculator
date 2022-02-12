@@ -129,6 +129,8 @@ double complex get_result(char* expression, int nvars){
                     }
                     f = 1;
                     strsize = 1;
+                }else if (strsize == 1 && expression[i] == '-'){
+                    stack_num.element[stack_num.top++] = 0;
                 }
                 // начинаем выкидывать из стека операции с приоритетом не менее текущего
                 for (int j = stack_op.top-1; j >= 0; --j) {
@@ -149,15 +151,7 @@ double complex get_result(char* expression, int nvars){
                                 stack_num.element[stack_num.top-2] = add(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                                 break;
                             case '-':
-                                if (stack_num.top == 1){
-                                    printf("-(");
-                                    Print(stack_num.element[stack_num.top - 1]);
-                                    printf(")\n");
-                                    stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
-                                    stack_num.top++;
-                                }else{
-                                    stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
-                                }
+                                stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                                 break;
                             case '*':
                                 stack_num.element[stack_num.top-2] = mult(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
@@ -222,11 +216,7 @@ double complex get_result(char* expression, int nvars){
                             stack_num.element[stack_num.top-2] = add(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                             break;
                         case '-':
-                            printf("-(");
-                            Print(stack_num.element[stack_num.top - 1]);
-                            printf(")\n");
-                            stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
-                            stack_num.top++;
+                            stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                             break;
                         case '*':
                             stack_num.element[stack_num.top-2] = mult(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
@@ -302,15 +292,7 @@ double complex get_result(char* expression, int nvars){
                     stack_num.element[stack_num.top-2] = add(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                     break;
                 case '-':
-                    if (stack_num.top == 1){
-                        printf("-(");
-                        Print(stack_num.element[stack_num.top-1]);
-                        printf(")\n");
-                        stack_num.element[stack_num.top-1] = stack_num.element[stack_num.top-1] * (-1);
-                        stack_num.top++;
-                    }else{
-                        stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
-                    }
+                    stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                     break;
                 case '*':
                     stack_num.element[stack_num.top-2] = mult(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);

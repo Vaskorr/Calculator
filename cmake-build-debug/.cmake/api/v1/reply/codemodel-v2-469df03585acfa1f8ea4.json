@@ -6,7 +6,6 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.20"
@@ -49,12 +48,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Max/Desktop/Programming/2021-2022/C/Calculator/cmake-build-debug",
-		"source" : "C:/Users/Max/Desktop/Programming/2021-2022/C/Calculator"
+		"build" : "D:/calc/cmake-build-debug",
+		"source" : "D:/calc"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 3
+		"minor" : 2
 	}
 }

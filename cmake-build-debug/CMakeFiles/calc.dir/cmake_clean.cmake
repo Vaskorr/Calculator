@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/calc.dir/functions.c.obj"
-  "CMakeFiles/calc.dir/functions.c.obj.d"
   "CMakeFiles/calc.dir/main.c.obj"
-  "CMakeFiles/calc.dir/main.c.obj.d"
   "calc.exe"
   "calc.exe.manifest"
   "calc.pdb"
