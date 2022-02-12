@@ -87,6 +87,13 @@ double complex cxsqrt(double complex a) {
     return csqrt(a);
 }
 
+double complex cxreal(double complex a) {
+    return creal(a);
+}
+
+double complex cximag(double complex a) {
+    return cimag(a);
+}
 
 double complex cxabs(double complex a) {
     return cabs(a);
@@ -131,8 +138,8 @@ complex double* findFunction(char *expression){
     if (!strcmp(expression, "abs(")){return (complex double *) &cxabs;}
     if (!strcmp(expression, "mag(")){return (complex double *) &cxabs;}
     if (!strcmp(expression, "exp(")){return (complex double *) &cxexp;}
-    if (!strcmp(expression, "real(")){return (complex double *) &creal;}
-    if (!strcmp(expression, "imag(")){return (complex double *) &cimag;}
+    if (!strcmp(expression, "real(")){return (complex double *) &cxreal;}
+    if (!strcmp(expression, "imag(")){return (complex double *) &cximag;}
     if (!strcmp(expression, "phase(")){return (complex double *) &cxphase;}
     return NULL;
 }
