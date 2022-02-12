@@ -139,12 +139,10 @@ double complex get_result(char* expression, int nvars){
                     }
                     if(get_priority(&stack_op.element[j][0]) >= get_priority(&expression[i])){
                         printf("do ");
-                        if (stack_num.top != 1 || stack_op.element[j][0] != '-') {
-                            Print(stack_num.element[stack_num.top - 2]);
-                            printf("%s", stack_op.element[j]);
-                            Print(stack_num.element[stack_num.top - 1]);
-                            printf("\n");
-                        }
+                        Print(stack_num.element[stack_num.top - 2]);
+                        printf("%s", stack_op.element[j]);
+                        Print(stack_num.element[stack_num.top - 1]);
+                        printf("\n");
                         // сразу считаем значение, извлекая операцию из стека
                         switch (stack_op.element[j][0]) {
                             case '+':
@@ -204,12 +202,10 @@ double complex get_result(char* expression, int nvars){
                         break; // если вдруг стек пуст
                     }
                     printf("do ");
-                    if (stack_num.top != 1 || stack_op.element[j][0] != '-') {
-                        Print(stack_num.element[stack_num.top - 2]);
-                        printf("%s", stack_op.element[j]);
-                        Print(stack_num.element[stack_num.top - 1]);
-                        printf("\n");
-                    }
+                    Print(stack_num.element[stack_num.top - 2]);
+                    printf("%s", stack_op.element[j]);
+                    Print(stack_num.element[stack_num.top - 1]);
+                    printf("\n");
                     // сразу считаем значение, извлекая операцию из стека
                     switch (stack_op.element[j][0]) {
                         case '+':
@@ -280,12 +276,10 @@ double complex get_result(char* expression, int nvars){
     if(stack_op.top){
         for (int i = stack_op.top-1; i >= 0; --i) {
             printf("do ");
-            if (stack_num.top != 1 || stack_op.element[i][0] != '-') {
-                Print(stack_num.element[stack_num.top - 2]);
-                printf("%s", stack_op.element[i]);
-                Print(stack_num.element[stack_num.top - 1]);
-                printf("\n");
-            }
+            Print(stack_num.element[stack_num.top - 2]);
+            printf("%s", stack_op.element[i]);
+            Print(stack_num.element[stack_num.top - 1]);
+            printf("\n");
             // добавляем операцию в стек
             switch (stack_op.element[i][0]) {
                 case '+':
