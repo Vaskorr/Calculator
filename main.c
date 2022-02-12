@@ -12,11 +12,12 @@
  */
                    // ------- новые апдейты сверху не пишем, меняем этот на свой ------- //
 /*
- * Юлин мини update:
- * + вывод по действиям
- * + комплексные числа выводятся в виде (-1+6i)
+ * NewRonin's update:
+ * + унарный минус в скобках больше не приводит к нарушению порядка действий в опз
+ * + для удобства добавлена функция pr_stack для просмотра содержимого стеков
  *
- * - скобки
+ * - ранее реализованный вывод по действиям не соответствует обновленному алгоритму
+ * - pr_stack пока печатает только действительные числа
  */
 
 
@@ -64,7 +65,6 @@ int init_const(struct variable *vars){
     return count;
 }
 
-
 // вывод числа
 void Print(double complex number) {
     if (creal(number) && cimag(number)) {
@@ -76,6 +76,18 @@ void Print(double complex number) {
     }
     else {
         printf("%.5lf", creal(number));
+    }
+}
+
+void pr_stack(stack a, cstack b){
+    printf("Your operation stack:\n");
+    for(int i = 0; i < a.top; ++i){
+        printf("%s\n", a.element[i]);
+    }
+    printf("Your number stack:\n");
+
+    for(int i = 0; i < b.top; ++i){
+        printf("%.5lf\n", creal(b.element[i]));
     }
 }
 
@@ -210,15 +222,11 @@ double complex get_result(char* expression, int nvars){
                             stack_num.element[stack_num.top-2] = add(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
                             break;
                         case '-':
-                            if (stack_num.top == 1){
-                                printf("-(");
-                                Print(stack_num.element[stack_num.top - 1]);
-                                printf(")\n");
-                                stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
-                                stack_num.top++;
-                            }else{
-                                stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
-                            }
+                            printf("-(");
+                            Print(stack_num.element[stack_num.top - 1]);
+                            printf(")\n");
+                            stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
+                            stack_num.top++;
                             break;
                         case '*':
                             stack_num.element[stack_num.top-2] = mult(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);
@@ -298,7 +306,7 @@ double complex get_result(char* expression, int nvars){
                         printf("-(");
                         Print(stack_num.element[stack_num.top-1]);
                         printf(")\n");
-                        stack_num.element[stack_num.top-1] = -stack_num.element[stack_num.top-1];
+                        stack_num.element[stack_num.top-1] = stack_num.element[stack_num.top-1] * (-1);
                         stack_num.top++;
                     }else{
                         stack_num.element[stack_num.top-2] = sub(stack_num.element[stack_num.top-2], stack_num.element[stack_num.top-1]);

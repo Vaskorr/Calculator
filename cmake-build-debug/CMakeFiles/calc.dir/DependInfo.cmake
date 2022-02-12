@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Zver/Documents/GitHub/Calculator/functions.c" "CMakeFiles/calc.dir/functions.c.obj" "gcc" "CMakeFiles/calc.dir/functions.c.obj.d"
-  "C:/Users/Zver/Documents/GitHub/Calculator/main.c" "CMakeFiles/calc.dir/main.c.obj" "gcc" "CMakeFiles/calc.dir/main.c.obj.d"
+  "C:/Users/Max/Desktop/Programming/2021-2022/C/Calculator/functions.c" "CMakeFiles/calc.dir/functions.c.obj" "gcc" "CMakeFiles/calc.dir/functions.c.obj.d"
+  "C:/Users/Max/Desktop/Programming/2021-2022/C/Calculator/main.c" "CMakeFiles/calc.dir/main.c.obj" "gcc" "CMakeFiles/calc.dir/main.c.obj.d"
   )
 
 # Targets to which this target links.
