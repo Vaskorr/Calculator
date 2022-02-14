@@ -125,7 +125,7 @@ double complex get_result(char* expression, int nvars){
                     }
                     f = 1;
                     strsize = 1;
-                }else if (strsize == 1 && expression[i] == '-' && stack_op.element[stack_op.top-1][strlen(stack_op.element[stack_op.top-1])-1] == '('){
+                }else if (strsize == 1 && expression[i] == '-' && (stack_op.element[stack_op.top-1][strlen(stack_op.element[stack_op.top-1])-1] == '(' || stack_op.top == 0)){
                     stack_num.element[stack_num.top++] = 0;
                 }
                 // начинаем выкидывать из стека операции с приоритетом не менее текущего
