@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-D:/calc/functions.c
-complex.h
--
-math.h
--
-string.h
--
-stdlib.h
--
-stdio.h
--
-functions.h
-D:/calc/functions.h
-
 D:/calc/functions.h
 
 D:/calc/main.c

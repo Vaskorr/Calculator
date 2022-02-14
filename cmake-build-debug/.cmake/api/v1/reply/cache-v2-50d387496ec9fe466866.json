@@ -194,7 +194,7 @@
 					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "C:/Program Files/mingw/mingw64/bin/gcc.exe"
 		},
 		{
