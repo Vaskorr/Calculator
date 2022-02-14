@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/akimo/Documents/GitHub/Calculator/functions.c
+C:/Users/123/Documents/GitHub/Calculator/functions.c
 complex.h
 -
 math.h
@@ -18,11 +18,11 @@ stdlib.h
 stdio.h
 -
 functions.h
-C:/Users/akimo/Documents/GitHub/Calculator/functions.h
+C:/Users/123/Documents/GitHub/Calculator/functions.h
 
-C:/Users/akimo/Documents/GitHub/Calculator/functions.h
+C:/Users/123/Documents/GitHub/Calculator/functions.h
 
-C:/Users/akimo/Documents/GitHub/Calculator/main.c
+C:/Users/123/Documents/GitHub/Calculator/main.c
 stdio.h
 -
 string.h
@@ -30,7 +30,7 @@ string.h
 complex.h
 -
 functions.h
-C:/Users/akimo/Documents/GitHub/Calculator/functions.h
+C:/Users/123/Documents/GitHub/Calculator/functions.h
 math.h
 -
 

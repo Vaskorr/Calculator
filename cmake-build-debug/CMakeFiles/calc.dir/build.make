@@ -43,19 +43,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2021.2.1\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2021.2.1\bin\cmake\win\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\akimo\Documents\GitHub\Calculator
+CMAKE_SOURCE_DIR = C:\Users\123\Documents\GitHub\Calculator
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/calc.dir/depend.make
@@ -67,29 +67,29 @@ include CMakeFiles/calc.dir/flags.make
 
 CMakeFiles/calc.dir/main.c.obj: CMakeFiles/calc.dir/flags.make
 CMakeFiles/calc.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/calc.dir/main.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\calc.dir\main.c.obj -c C:\Users\akimo\Documents\GitHub\Calculator\main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/calc.dir/main.c.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\calc.dir\main.c.obj -c C:\Users\123\Documents\GitHub\Calculator\main.c
 
 CMakeFiles/calc.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/calc.dir/main.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\akimo\Documents\GitHub\Calculator\main.c > CMakeFiles\calc.dir\main.c.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\123\Documents\GitHub\Calculator\main.c > CMakeFiles\calc.dir\main.c.i
 
 CMakeFiles/calc.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/calc.dir/main.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\akimo\Documents\GitHub\Calculator\main.c -o CMakeFiles\calc.dir\main.c.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\123\Documents\GitHub\Calculator\main.c -o CMakeFiles\calc.dir\main.c.s
 
 CMakeFiles/calc.dir/functions.c.obj: CMakeFiles/calc.dir/flags.make
 CMakeFiles/calc.dir/functions.c.obj: ../functions.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/calc.dir/functions.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\calc.dir\functions.c.obj -c C:\Users\akimo\Documents\GitHub\Calculator\functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/calc.dir/functions.c.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\calc.dir\functions.c.obj -c C:\Users\123\Documents\GitHub\Calculator\functions.c
 
 CMakeFiles/calc.dir/functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/calc.dir/functions.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\akimo\Documents\GitHub\Calculator\functions.c > CMakeFiles\calc.dir\functions.c.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\123\Documents\GitHub\Calculator\functions.c > CMakeFiles\calc.dir\functions.c.i
 
 CMakeFiles/calc.dir/functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/calc.dir/functions.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\akimo\Documents\GitHub\Calculator\functions.c -o CMakeFiles\calc.dir\functions.c.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\123\Documents\GitHub\Calculator\functions.c -o CMakeFiles\calc.dir\functions.c.s
 
 # Object files for target calc
 calc_OBJECTS = \
@@ -105,7 +105,7 @@ calc.exe: CMakeFiles/calc.dir/build.make
 calc.exe: CMakeFiles/calc.dir/linklibs.rsp
 calc.exe: CMakeFiles/calc.dir/objects1.rsp
 calc.exe: CMakeFiles/calc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable calc.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable calc.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\calc.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -117,6 +117,6 @@ CMakeFiles/calc.dir/clean:
 .PHONY : CMakeFiles/calc.dir/clean
 
 CMakeFiles/calc.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\akimo\Documents\GitHub\Calculator C:\Users\akimo\Documents\GitHub\Calculator C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug C:\Users\akimo\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles\calc.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\123\Documents\GitHub\Calculator C:\Users\123\Documents\GitHub\Calculator C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug C:\Users\123\Documents\GitHub\Calculator\cmake-build-debug\CMakeFiles\calc.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/calc.dir/depend
 

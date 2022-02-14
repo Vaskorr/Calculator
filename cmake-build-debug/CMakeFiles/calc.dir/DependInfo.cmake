@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/akimo/Documents/GitHub/Calculator/functions.c" "C:/Users/akimo/Documents/GitHub/Calculator/cmake-build-debug/CMakeFiles/calc.dir/functions.c.obj"
-  "C:/Users/akimo/Documents/GitHub/Calculator/main.c" "C:/Users/akimo/Documents/GitHub/Calculator/cmake-build-debug/CMakeFiles/calc.dir/main.c.obj"
+  "C:/Users/123/Documents/GitHub/Calculator/functions.c" "C:/Users/123/Documents/GitHub/Calculator/cmake-build-debug/CMakeFiles/calc.dir/functions.c.obj"
+  "C:/Users/123/Documents/GitHub/Calculator/main.c" "C:/Users/123/Documents/GitHub/Calculator/cmake-build-debug/CMakeFiles/calc.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

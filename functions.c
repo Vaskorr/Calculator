@@ -1,6 +1,4 @@
-#define M_STR 100
-#define M_STACK 100
-#define PRECISION 0.0000005 // не трогать бл*н
+#define PRECISION 0.0000005
 #include <complex.h>
 #include <math.h>
 #include <string.h>
@@ -64,7 +62,8 @@ double complex sub(double complex a, double complex b) {
 double complex divide(double complex a, double complex b) {
     if (equals(b, 0)) {
         printf("Can't divide by zero");
-        exit(2);}
+        exit(2);
+    }
     return a/b;
 }
 
@@ -101,12 +100,6 @@ double complex cxtan(double complex a) {
 
 
 double complex cxsqrt(double complex a) {
-    /* if (equals(cimag(a), 0)) {
-        if (equals(creal(a), 0) || creal(a) > 0) {
-            return sqrt(creal(a));
-        } else{return sqrt(creal(a))*I;}
-    }
-     */
     return csqrt(a);
 }
 
