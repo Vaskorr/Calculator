@@ -1,5 +1,6 @@
 #define M_STR 100
-#define PRECISION 0.000001 // не трогать бл*н
+#define M_STACK 100
+#define PRECISION 0.0000005 // не трогать бл*н
 #include <complex.h>
 #include <math.h>
 #include <string.h>
@@ -27,6 +28,26 @@ int get_priority(const char* op){
 int equals(double complex a, double complex b) {
     return fabs(creal(a)-creal(b)) < PRECISION &&
            fabs(cimag(a)-cimag(b)) < PRECISION;
+}
+
+
+void print_n(double complex number) {
+    if (!equals(creal(number), 0) && !equals(cimag(number), 0)) {
+        printf("%g", creal(number));
+        printf(cimag(number) > 0 ? "+%gi" : "%gi", cimag(number));
+        return;
+    }
+    else if (!equals(cimag(number), 0)) {
+        printf("%gi", cimag(number));
+        return;
+    }
+    if (equals(creal(number), 0)) {
+        printf("0");
+        return;
+    }
+    else {
+        printf("%g", creal(number));
+    }
 }
 
 
@@ -70,7 +91,9 @@ double complex cxcos(double complex a) {
 
 double complex cxtan(double complex a) {
     if (equals(ccos(a), 0)) {
-        printf("Tangent of %lf + %lfi is undefined", creal(a), cimag(a));
+        printf("Tangent of ");
+        print_n(a);
+        printf(" is undefined");
         exit(2);
     }
     return ctan(a);

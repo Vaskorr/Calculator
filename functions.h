@@ -1,8 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#define M_STACK 100
-#define M_STR 100
+
+// вывод числа
+void print_n(double complex number);
 // получение приоритета функций
 int get_priority(const char* op);
 // сравнение с точностью
